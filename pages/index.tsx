@@ -1,9 +1,14 @@
+import { Menu, MenuItem } from '../components/Menu';
+// import { Menu, MenuItem } from '@leafygreen-ui/menu';
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
+import { createUniqueClassName } from '@leafygreen-ui/lib';
 
-const Home: NextPage = () => {
+const Home: NextPage<{ uniqueClassName: string }> = ({ uniqueClassName }) => {
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,6 +18,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
+
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
@@ -21,6 +27,17 @@ const Home: NextPage = () => {
           Get started by editing{' '}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
+
+        <Menu align="bottom" justify="start" trigger={<button>trigger</button>} open>
+          <MenuItem href="/1" as="a">
+            Item as anchor
+          </MenuItem>
+          <Link href="/" passHref>
+            <MenuItem>
+              Test
+            </MenuItem>
+          </Link>
+        </Menu>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
@@ -67,6 +84,15 @@ const Home: NextPage = () => {
       </footer>
     </div>
   )
+}
+
+export async function getStaticProps() {
+  const uniqueClassName: string = createUniqueClassName();
+  return {
+    props: {
+      uniqueClassName
+    }, // will be passed to the page component as props
+  }
 }
 
 export default Home
